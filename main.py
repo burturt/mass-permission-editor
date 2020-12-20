@@ -6,7 +6,7 @@ from discord.ext import commands
 load_dotenv()
 TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 
-bot = commands.Bot(command_prefix='rd-', description='A utility bot to help apply mass permission changes. https://github.com/burturt/mass-permission-editor',
+bot = commands.Bot(command_prefix='mpe-', description='A utility bot to help apply mass permission changes. https://github.com/burturt/mass-permission-editor',
                    help_command=commands.DefaultHelpCommand(no_category='Commands'))
 
 
@@ -22,7 +22,7 @@ async def massadd(ctx):
         await ctx.send('You do not have permission to use this command')
     else:
         if not len(ctx.message.role_mentions) == 1:
-            await ctx.send("I can only deal with one role at a time, sorry")
+            await ctx.send("You must mention exactly one role; aborting")
             return
         elif len(ctx.message.channel_mentions) == 0:
             await ctx.send("No channels mentioned; aborting")
