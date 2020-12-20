@@ -1,5 +1,3 @@
-
-
 import os
 import discord
 from dotenv import load_dotenv
@@ -8,7 +6,8 @@ from discord.ext import commands
 load_dotenv()
 TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 
-bot = commands.Bot(command_prefix='rd-')
+bot = commands.Bot(command_prefix='rd-', description='A utility bot to help apply mass permission changes',
+                   help_command=commands.DefaultHelpCommand(no_category='Commands'))
 
 
 @bot.event
@@ -34,7 +33,8 @@ async def massadd(ctx):
         for channel in ctx.message.channel_mentions:
             try:
                 await channel.set_permissions(role, reason=f'{ctx.author.name}({ctx.author.id})', read_messages=True)
-                await channel.set_permissions(everyone, reason=f'{ctx.author.name}({ctx.author.id})', read_messages=False)
+                await channel.set_permissions(everyone, reason=f'{ctx.author.name}({ctx.author.id})',
+                                              read_messages=False)
                 await ctx.send(f"Channel overrides set for role {role.name} on channel {channel.name}")
             except:
                 await ctx.send("An unknown error occurred. Does the bot have permission to modify roles?")
@@ -43,7 +43,9 @@ async def massadd(ctx):
                     await ctx.send("An error has occurred at least 3 times - cancelling")
                     return
 
-@bot.command(name='masscategorychildadd', help='Mass add role as allow view channel and everyone deny view in all channels under category')
+
+@bot.command(name='masscategorychildadd',
+             help='Mass add role as allow view channel and everyone deny view in all channels under category')
 async def masscategorychildadd(ctx):
     if not ctx.message.author.guild_permissions.administrator:
         await ctx.send('You do not have permission to use this command')
@@ -74,6 +76,7 @@ async def clearperms(ctx):
         await ctx.send('You do not have permission to use this command')
         return
 
+    # Clear roles
     if len(ctx.message.role_mentions) == 0:
         await ctx.send("No roles mentioned; aborting")
         return
@@ -144,7 +147,8 @@ async def clearcategoryperms(ctx):
         await ctx.send(f'category {category.name} overwrites cleared')
 
 
-@bot.command(name='clearcategorychildrenperms', help='Clears permissions for all channels under category of mentioned channel')
+@bot.command(name='clearcategorychildrenperms',
+             help='Clears permissions for all channels under category of mentioned channel')
 async def clearcategorychildrenperms(ctx):
     if not ctx.message.author.guild_permissions.administrator:
         await ctx.send('You do not have permission to use this command')
@@ -171,7 +175,4 @@ async def clearcategorychildrenperms(ctx):
         await ctx.send(f'Channel {channel.name} overwrites cleared')
 
 
-
-
 bot.run(TOKEN)
-
