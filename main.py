@@ -6,7 +6,7 @@ from discord.ext import commands
 load_dotenv()
 TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 
-bot = commands.Bot(command_prefix='rd-', description='A utility bot to help apply mass permission changes',
+bot = commands.Bot(command_prefix='rd-', description='A utility bot to help apply mass permission changes. https://github.com/burturt/mass-permission-editor',
                    help_command=commands.DefaultHelpCommand(no_category='Commands'))
 
 
