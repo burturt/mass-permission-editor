@@ -68,8 +68,6 @@ async def masscategorychildadd(ctx):
                 return
 
 
-
-
 @bot.command(name='clearperms', help='Clears the permissions of all mentioned roles and channels')
 async def clearperms(ctx):
     if not ctx.message.author.guild_permissions.administrator:
@@ -156,7 +154,7 @@ async def clearcategorychildrenperms(ctx):
         return
     category = ctx.message.channel_mentions[0].category
     exceptioncount = 0
-    for channel in category.text_channels:
+    for channel in category.channels:
         await ctx.send(f'Clearing permission overwrites for channel {channel.name}...')
         print(channel)
         try:
