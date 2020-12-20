@@ -1,12 +1,8 @@
-# This is a sample Python script.
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 
 import os
 import discord
 from dotenv import load_dotenv
-from discord.utils import get
 from discord.ext import commands
 
 load_dotenv()
@@ -96,4 +92,3 @@ async def clearperms(ctx):
 
 bot.run(TOKEN)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
