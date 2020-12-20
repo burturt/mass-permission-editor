@@ -90,5 +90,36 @@ async def clearperms(ctx):
                 await ctx.send(f'Channel {channel.name} overwrites cleared')
 
 
+@bot.command(name='clearcategoryperms', help='Clear override permissions on a category given its id. Mention any '
+                                             'channel within a category to have that category\'s permissions cleared.')
+async def clearcategoryperms(ctx):
+    if not ctx.message.author.guild_permissions.administrator:
+        await ctx.send('You do not have permission to use this command')
+        return
+    if ctx.message.channel_mentions == 0:
+        await ctx.send('No mentioned channels; exiting')
+        return
+    uniquecategores = []
+    for channel in ctx.message.channel_mentions:
+        if not channel.category in uniquecategores:
+            uniquecategores.append(channel.category)
+    exeptioncount = 0
+    for category in uniquecategores:
+        await ctx.send(f'Clearing permission overwrites for category {category.name}...')
+        print(category)
+        try:
+            overwrites = category.overwrites
+            for key in overwrites:
+                await category.set_permissions(key, reason=f'{ctx.author.name}({ctx.author.id})', overwrite=None)
+        except Exception as e:
+            await ctx.send(f"An unknown error occurred: {str(e)}")
+            exeptioncount += 1
+            if (exeptioncount >= 3):
+                await ctx.send("An error has occurred at least 3 times - cancelling")
+                return
+
+        await ctx.send(f'category {category.name} overwrites cleared')
+
+
 bot.run(TOKEN)
 
